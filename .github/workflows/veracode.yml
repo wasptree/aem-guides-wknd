@@ -16,7 +16,7 @@ jobs:
     - name: package components for analysis
       run: |
         curl -fsS https://tools.veracode.com/veracode-cli/install | sh
-        ./veracode packager --source ./ --trust --output ./verascan
+        ./veracode package --source ./ --trust --output ./verascan
 
     - name: upload components for analysis
       uses: veracode/veracode-uploadandscan-action@0.2.6
