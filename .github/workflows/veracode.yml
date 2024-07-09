@@ -15,7 +15,7 @@ jobs:
 
     - name: Build project
       run: |
-        mvn clean install -PautoInstallSinglePackage
+        mvn clean install
     
     - name: package components for analysis
       run: |
