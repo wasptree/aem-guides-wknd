@@ -12,6 +12,10 @@ jobs:
     steps:
     - name: Check out the repository
       uses: actions/checkout@v3
+
+    - name: Build project
+      run: |
+        mvn clean install -PautoInstallSinglePackage
     
     - name: package components for analysis
       run: |
