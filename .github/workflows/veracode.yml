@@ -3,7 +3,7 @@ name: Check for Changes
 on:
   push:
     branches:
-      - main
+      - package
 
 jobs:
   veracode-analysis:
@@ -12,15 +12,16 @@ jobs:
     steps:
     - name: Check out the repository
       uses: actions/checkout@v3
-
-    - name: pull dependencies
-      run: | 
-        mvn clean package
     
     - name: package components for analysis
       run: |
-        curl -fsS https://tools.veracode.com/veracode-cli/install | sh
-        ./veracode package --source ./ --trust --output ./verascan --debug
+        mkdir -p verascan
+        cp ./core/target/*.jar ./verascan/
+        
+        find ./ -type d -name node_modules -prune -o \
+        -type f \( -name "*.html" -o -name "*.js" -o -name "*.jsp" \)\
+        -print | zip ./verascan/js-jsp-html.zip -@
+
         
     - name: debug
       run: |
@@ -35,4 +36,3 @@ jobs:
         filepath: './verascan'
         vid: '${{ secrets.API_ID }}'
         vkey: '${{ secrets.API_KEY }}'
-        exclude: '*test*'
